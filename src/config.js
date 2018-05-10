@@ -3,6 +3,8 @@
 // POST http://0.0.0.0:9000/auth -i -u
 // email=wdoody@yahoo.com&password=password&access_token=hawaii11
 
+require('dotenv').config()
+
 /* eslint-disable no-unused-vars */
 import path from 'path'
 

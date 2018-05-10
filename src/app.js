@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import http from 'http'
 import { env, mongo, port, ip, apiRoot } from './config'
 import mongoose from './services/mongoose'
