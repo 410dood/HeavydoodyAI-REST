@@ -2,7 +2,7 @@ import { EventEmitter } from 'events'
 import mockgoose from 'mockgoose'
 import mongoose from '../src/services/mongoose'
 import { mongo } from '../src/config'
-
+require('dotenv').config()
 EventEmitter.defaultMaxListeners = Infinity
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
