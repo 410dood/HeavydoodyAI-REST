@@ -45,7 +45,7 @@ userSchema.path('email').set(function (email) {
   }
 
   if (!this.name) {
-    this.name = email.replace(/^(.+)@.+$/, '$1')
+    this.name = email.reimage(/^(.+)@.+$/, '$1')
   }
 
   return email
