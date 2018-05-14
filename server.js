@@ -13,22 +13,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// var MongoClient = require('mongodb').MongoClient,
-//     assert = require('assert');
-
-// // Connection URL
-// var db = 'mongodb://admin:password@ds019638.mlab.com:19638/heavydoodyai-db';
-
-// // Use connect method to connect to the server
-// MongoClient.connect(url, function (err, db) {
-//     assert.equal(null, err);
-//     console.log("Connected successfully to server");
-
-//     db.close();
-// });
-
 const db = knex({
-  client: 'pg', //NODE-POSGRESS - Non-blocking PostgreSQL client for Node.js.Pure JavaScript and optional native libpq bindings.
+  client: 'pg', //NODE-POSGRESS - Non-blocking PostgreSQL client for Node.js. Pure JavaScript and optional native libpq bindings.
+
   connection: {
     connectionString: process.env.DATABASE_URL,
     ssl: true
