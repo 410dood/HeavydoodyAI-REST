@@ -11,11 +11,11 @@ const image = require('./controllers/image');
 
 // initialize database
 const db = knex({
-    client: 'pg',
-    connection: {
-      connectionString : process.env.DATABASE_URL,
-      ssl: true
-    }
+  client: 'pg',
+  connection: {
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  }
 });
 
 const app = express();
@@ -23,7 +23,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-    if (req.body) res.send(database.users);
+  res.send('it is working!')
+  if (req.body) res.send(database.users);
 });
 
 app.post('/signin', signin.handleSignin(db, bcrypt));
