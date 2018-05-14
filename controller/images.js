@@ -1,43 +1,39 @@
-var db = require('../models');
-var Image = db.image;
+const express = require('express');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
+const knex = require('knex')
 
-function imageIndex(req, res) {
-    db
-        .Image
-        .find({}, function (err, images) {
-            if (err) 
-                res.send(err);
-            else 
-                res.json(images);
-            }
-        );
-}
+const signin = require('./controllers/signin');
+const register = require('./controllers/register');
+const profile = require('./controllers/profile');
+const image = require('./controllers/image');
 
-function imageIndexID(req, res) {
-    db
-        .Image
-        .findOne({
-            image_id: req.params.image_id
-        }, function (err, imageID) {
-            if (err) 
-                res.send(err);
-            else 
-                res.json(imageID);
-            }
-        );
-}
+// initialize database
+const db = knex({
+    client: 'pg',
+    connection: {
+      connectionString : process.env.DATABASE_URL,
+      ssl: true
+    }
+});
 
-function imageCreate(req, res) {}
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
 
-function imageShow(req, res) {}
+app.get('/', (req, res) => {
+    if (req.body) res.send(database.users);
+});
 
-function imageUpdate(req, res) {}
+app.post('/signin', signin.handleSignin(db, bcrypt));
 
-function imageDestroy(req, res) {}
+app.post('/register', register.handleRegister(db, bcrypt));
 
-module.exports.imageIndex = imageIndex;
-module.exports.imageIndexID = imageIndexID;
-module.exports.imageCreate = imageCreate;
-module.exports.imageShow = imageShow;
-module.exports.imageUpdate = imageUpdate;
-module.exports.imageDestroy = imageDestroy;
+app.get('/profile/:id', profile.handleGetProfile(db));
+
+app.put('/image', image.handleSubmitImage(db));
+app.post('/imageurl', image.handleApiCall);
+
+const PORT = (process.env.PORT || 3000);
+app.listen(PORT, () => console.log(`app is running on port ${PORT}`));
