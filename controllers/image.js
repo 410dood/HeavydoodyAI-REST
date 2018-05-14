@@ -1,36 +1,35 @@
-require('dotenv').config()
-
-const Clarifai = require('clarifai');
+const clarifai = require('clarifai');
 
 const app = new Clarifai.App({
-  apiKey: process.env.API_CLARIFAI
+  apiKey: 'bcdc87e24b314c9d9d4dae72d641b65b'
 });
 
 const handleApiCall = (req, res) => {
-  app
-    .models
-    .predict(Clarifai.FACE_DETECT_MODEL, req.body.input)
+  app.models.predict("c0c0ac362b03416da06ab3fa36fb58e3", req.body.input)
     .then(data => {
       res.json(data);
     })
-    .catch(err => res.status(400).json('unable to work with API'))
+    .catch(err => res.status(400).json('unable to work with API'));
 }
 
-const handleImage = (req, res, db) => {
+const handleSubmitImage = (db) => (req, res) => {
   const {
     id
   } = req.body;
-  db('users')
-    .where('id', '=', id)
+  db('users').where('id', '=', id)
     .increment('entries', 1)
     .returning('entries')
     .then(entries => {
-      res.json(entries[0]);
+      if (entries.length) {
+        res.json(entries[0])
+      } else {
+        res.status(400).json('Not found');
+      }
     })
-    .catch(err => res.status(400).json('unable to get entries'));
+    .catch(err => res.status(400).json('unable to get count'));
 }
 
 module.exports = {
-  handleImage,
+  handleSubmitImage,
   handleApiCall
-}
+};
