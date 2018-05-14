@@ -44,4 +44,5 @@ const handleRegister = (db, bcrypt) => (req, res) => {
 
 module.exports = {
   handleRegister
+  console.log(handleRegister)
 };
