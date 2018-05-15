@@ -1,8 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var cors = require('cors')
+var app = express()
 
+app.use(cors())
 var VerifyToken = require('./VerifyToken');
+
 
 router.use(bodyParser.urlencoded({
   extended: false
