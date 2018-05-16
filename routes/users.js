@@ -28,20 +28,6 @@ router.get('/:id', function (req, res) {
     });
 });
 
-// mark tweet as reserved/hidden on writers db and add it to logged in users db
-router.put('/tweets/:tweet_id', function (req, res) {
-    db.Tweet.findOne({tweet_id: req.params.tweet_id}, function (err, tweet) { //change tweet_id to _id
-        if (err) { return console.log("****************ERROR*******************", err); }
-        tweet.reserved = true;
-        tweet.save();
-        db.User.findOne({handle: 'name3'}, function(error, user) { //change to currently logged in user
-            if (error) { return console.log("****************ERROR*******************", error); }
-            user.purchasedTweets.push(req.params.tweet_id) //change tweet_id to _id
-            user.save();
-        });
-    });
-});
-
 // subscribe/unsubscribe from writer's channel
 router.put('/:id', function (req, res) {
     db.User.findOne({handle: 'name3'}, function(err, user) { //change 'name3' to currently logged in user
